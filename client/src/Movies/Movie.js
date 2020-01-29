@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import UpdateMovie from "./UpdateMovie";
 export default class Movie extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +33,10 @@ export default class Movie extends React.Component {
   };
 
   editMovie = () => {
+    this.props.history.push(`/update-movie/${this.props.match.params.id}`)
+  }
+
+  deletMovie = () => {
 
   }
 
@@ -46,8 +51,9 @@ export default class Movie extends React.Component {
         <div className="save-button" onClick={this.saveMovie}>
           Save
         </div>
-        <button>Edit</button>
+        <button onClick={this.editMovie}>Edit</button>
         <button>Delete</button>
+        
       </div>
     );
   }

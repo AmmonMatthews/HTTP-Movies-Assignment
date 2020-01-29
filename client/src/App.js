@@ -23,10 +23,10 @@ const App = () => {
         }}
       />
       <Route 
-        path="/update-movies/ :id"
+        path="/update-movie/:id"
         component={UpdateMovie}
-      
       />
+
     </>
   );
 };
