@@ -7,10 +7,13 @@ import UpdateMovie from "./Movies/UpdateMovie";
 
 const App = () => {
   const [savedList, setSavedList] = useState([]);
-
+  
+  
   const addToSavedList = movie => {
     setSavedList([...savedList, movie]);
   };
+
+
 
   return (
     <>
@@ -23,10 +26,10 @@ const App = () => {
         }}
       />
       <Route 
-        path="/update-movies/ :id"
+        path="/update-movie/:id"
         component={UpdateMovie}
-      
       />
+
     </>
   );
 };
