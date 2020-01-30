@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+
 
 const initialState = {
     title:'',
@@ -7,16 +10,43 @@ const initialState = {
 }
 
 
-
-const UpdateMovie = () => {
+const UpdateMovie = (props) => {
     const [movie, setMovie] = useState(initialState);
-
+    const id = props.match.params.id
 
     const handleChange = e => {
         setMovie({...movie, [e.target.name]: e.target.value})
-        console.log(movie)
+        
     }
 
+    useEffect(() => {
+        axios
+            .get(`http://localhost:5000/api/movies/${id}`)
+            .then(res => {
+                setMovie(res.data)
+            })
+            .catch(er => {
+                console.log( "error", er.response)
+            })
+
+    },[id])
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        // make a PUT request to edit the item
+        axios
+          .put(`http://localhost:5000/api/movies/${id}`, movie)
+          .then(res => {
+
+            console.log(res)
+            // res.data is the FULL array with the updated item
+            // That's not always the case. Sometimes you need to build your
+            // own updated array
+            // props.setItems(res.data);
+            props.history.push(`/movies/${id}`);
+          })
+          .catch(err => console.log(err));
+      };
 
     return (
         <div>
@@ -45,13 +75,13 @@ const UpdateMovie = () => {
                 <input 
                     id="metascore"
                     name="metascore"
-                    type="text"
+                    type="number"
                     placeholder="metascore"
                     value={movie.metascore}
                     onChange={handleChange}
                 />
                 
-                <button>Update</button>
+                <button onClick={handleSubmit}>Update</button>
             </form>
         </div>
     )
